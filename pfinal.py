@@ -79,8 +79,20 @@ y = y.apply(lambda x: -1.0 if x < 1400 else 1.0)
 print("Valor mínimo de las caraterísticas del conjunto de datos: {}".format(X.values.min()))
 print("Valor máximo de las caraterísticas del conjunto de datos: {}".format(X.values.max()))
 
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.20)
+# Vemos si las clases estan bien balanceadas
+y_df = pd.DataFrame(data = y)
+numero_elementos = []
+clases = [1.0,-1.0]
+for i in clases:
+    numero_elementos.append(y_df[' shares'].value_counts()[i])
 
+df_plot = pd.DataFrame(columns= ["Clases", "Número de ejemplos"], data =[[c,n] for c, n in zip(clases,numero_elementos)])
+sns.barplot(x="Clases", y ="Número de ejemplos", data = df_plot)
+plt.title("Número de ejemplos de cada clase en el conjunto de datos")
+plt.show()
+input("\n--- Pulsar tecla para continuar ---\n")
+
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.20)
 
 # Preprocesado
 preprocesado = [("escalado", StandardScaler()),
