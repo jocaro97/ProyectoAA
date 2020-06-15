@@ -21,6 +21,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.gaussian_process.kernels import RBF
+from sklearn.ensemble import RandomForestClassifier
 
 from sklearn.decomposition import PCA
 from sklearn.metrics import confusion_matrix
@@ -155,6 +156,10 @@ modelos = [
         'clf__C': [10**a for a in range(-6,-2)]},
     {'clf': [AdaBoostClassifier(random_state=SEED)],
         'clf__learning_rate': [10**a for a in range(-3, 3)]},
+    {'clf': [RandomForestClassifier(random_state=SEED,
+                                    class_weight = "balanced")],
+        'clf__max_depth': [10,20,30,40,50],
+        'clf__n_estimators': [50,100,150,200]},
 ]
 
 # cross-validation
