@@ -43,23 +43,18 @@ class ClfSwitcher(BaseEstimator):
 
         self.estimator = estimator
 
-
     def fit(self, X, y=None, **kwargs):
         self.estimator.fit(X, y)
         return self
 
-
     def predict(self, X, y=None):
         return self.estimator.predict(X)
-
 
     def predict_proba(self, X):
         return self.estimator.predict_proba(X)
 
-
     def score(self, X, y):
         return self.estimator.score(X, y)
-
 
 # Lectura de los datos de entrenamiento
 datos = pd.read_csv("./datos/OnlineNewsPopularity.csv")
@@ -102,27 +97,34 @@ preprocesador = Pipeline(preprocesado)
 
 # Mostramos la matriz de correlaciones antes del preprocesado de datos
 def mostrar_correlaciones(datos):
-	f, ax = plt.subplots(figsize=(10, 8))
-	corr = datos.corr()
-	sns.heatmap(corr, mask=np.zeros_like(corr, dtype=np.bool), cmap=sns.diverging_palette(220, 10, as_cmap=True), square=True, ax=ax)
-	f.suptitle('Matriz Correlaciones')
-	plt.show()
+    f, ax = plt.subplots(figsize=(10, 8))
+    corr = datos.corr()
+    sns.heatmap(corr,
+        mask=np.zeros_like(corr, dtype=np.bool),
+        cmap=sns.diverging_palette(220, 10, as_cmap=True),
+        square=True,
+        ax=ax)
+    f.suptitle('Matriz Correlaciones')
+    plt.show()
 
 mostrar_correlaciones(X)
 input("\n--- Pulsar tecla para continuar ---\n")
 
 # Mostramos la matriz de correlaciones después del preprocesado de datos
 def muestra_correlaciones_procesados(datos):
-	f, ax = plt.subplots(figsize=(10, 8))
-	corr = np.corrcoef(datos.T)
-	sns.heatmap(corr, mask=np.zeros_like(corr, dtype=np.bool), cmap=sns.diverging_palette(220, 10, as_cmap=True),square=True, ax=ax)
-	f.suptitle('Matriz Correlaciones')
-	plt.show()
+    f, ax = plt.subplots(figsize=(10, 8))
+    corr = np.corrcoef(datos.T)
+    sns.heatmap(corr,
+        mask=np.zeros_like(corr, dtype=np.bool),
+        cmap=sns.diverging_palette(220, 10, as_cmap=True),
+        square=True,
+        ax=ax)
+    f.suptitle('Matriz Correlaciones')
+    plt.show()
 
 datos_preprocesados = preprocesador.fit_transform(X)
 muestra_correlaciones_procesados(datos_preprocesados)
 input("\n--- Pulsar tecla para continuar ---\n")
-
 
 # Entrenamiento
 # Añadimos el clasificador ClfSwitcher para evitar errores de compilación
@@ -133,20 +135,20 @@ preprocesador = Pipeline(preprocesado)
 
 # Modelos
 modelos = [
-		  {'clf': [LogisticRegression(penalty='l2', # Regularización Ridge (L2)
-		  						  multi_class='ovr', # Indicamos que la regresión logística es multinomial
-		  						  solver = 'lbfgs', # Algoritmo a utilizar en el problema de optimización, aunque es el dado por defecto
-		  						  max_iter = 1000)],
-	       'clf__C':[2.0, 1.0, 0.1, 0.01, 0.001]},
-		  {'clf': [Perceptron(penalty = 'l2', # Regularización de Ridge (L2)
-                              tol = 1e-3, # Criterio de parada
-                              class_weight = "balanced")]},  #clases balanceada
-		  {'clf': [RidgeClassifier(normalize=True, # datos normalizados
-                                   class_weight = "balanced", # clases balanceadas
-                                   random_state=SEED,
-                                   tol=0.1)],
-		   'clf__alpha': [1.0, 0.1, 0.01, 0.001]},
-		  ]
+    {'clf': [LogisticRegression(penalty='l2', # Regularización Ridge (L2)
+        multi_class='ovr', # Indicamos que la regresión logística es multinomial
+        solver = 'lbfgs', # Algoritmo a utilizar en el problema de optimización, aunque es el dado por defecto
+        max_iter = 1000)],
+        'clf__C':[2.0, 1.0, 0.1, 0.01, 0.001]},
+    {'clf': [Perceptron(penalty = 'l2', # Regularización de Ridge (L2)
+        tol = 1e-3, # Criterio de parada
+        class_weight = "balanced")]},  #clases balanceada
+    {'clf': [RidgeClassifier(normalize=True, # datos normalizados
+        class_weight = "balanced", # clases balanceadas
+        random_state=SEED,
+        tol=0.1)],
+        'clf__alpha': [1.0, 0.1, 0.01, 0.001]},
+]
 
 # cross -validation
 grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5, n_jobs = -1)
@@ -165,15 +167,15 @@ cax = ax.matshow(cm, cmap ="BuGn")
 plt.title('Confusion matrix of the classifier')
 fig.colorbar(cax)
 ax.set(title="Matriz de confusión",
-         xticks=np.arange(2),
-         yticks=np.arange(2),
-         xlabel="Etiqueta real",
-         ylabel="Etiqueta predicha")
+    xticks=np.arange(2),
+    yticks=np.arange(2),
+    xlabel="Etiqueta real",
+    ylabel="Etiqueta predicha")
 
 # Añadimos los porcentajes a las celdas
 for i in range(2):
-	for j in range(2):
-		ax.text(j, i, "{:.0f}%".format(cm[i, j]), ha="center", va="center")
+    for j in range(2):
+        ax.text(j, i, "{:.0f}%".format(cm[i, j]), ha="center", va="center")
 
 plt.show()
 input("\n--- Pulsar tecla para continuar ---\n")
