@@ -1,0 +1,249 @@
+\documentclass[size=a4, parskip=half, titlepage=false, toc=flat, toc=bib, 12pt]{scrartcl}
+
+\setuptoc{toc}{leveldown}
+
+% Ajuste de las líneas y párrafos
+\linespread{1.2}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+
+% Español
+\usepackage[spanish, es-tabla]{babel}
+
+% Matemáticas
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+% Links
+%\usepackage{hyperref}
+
+% Fuentes
+\usepackage{newpxtext,newpxmath}
+\usepackage[scale=.9]{FiraMono}
+\usepackage{FiraSans}
+\usepackage[T1]{fontenc}
+
+\defaultfontfeatures{Ligatures=TeX,Numbers=Lining}
+\usepackage[activate={true,nocompatibility},final,tracking=true,factor=1100,stretch=10,shrink=10]{microtype}
+\SetTracking{encoding={*}, shape=sc}{0}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+% Mejores tablas
+\usepackage{booktabs}
+
+\usepackage{adjustbox}
+
+% COLORES
+
+\usepackage{xcolor}
+
+\definecolor{verde}{HTML}{007D51}
+\definecolor{esmeralda}{HTML}{045D56}
+\definecolor{salmon}{HTML}{FF6859}
+\definecolor{amarillo}{HTML}{FFAC12}
+\definecolor{morado}{HTML}{A932FF}
+\definecolor{azul}{HTML}{0082FB}
+\definecolor{error}{HTML}{b00020}
+
+% ENTORNOS
+\usepackage[skins, listings, theorems]{tcolorbox}
+
+\newtcolorbox{recuerda}{
+  enhanced,
+%  sharp corners,
+  frame hidden,
+  colback=black!10,
+	lefttitle=0pt,
+  coltitle=black,
+  fonttitle=\bfseries\sffamily\scshape,
+  titlerule=0.8mm,
+  titlerule style=black,
+  title=\raisebox{-0.6ex}{\small RECUERDA}
+}
+
+\newtcolorbox{nota}{
+  enhanced,
+%  sharp corners,
+  frame hidden,
+  colback=black!10,
+	lefttitle=0pt,
+  coltitle=black,
+  fonttitle=\bfseries\sffamily\scshape,
+  titlerule=0.8mm,
+  titlerule style=black,
+  title=\raisebox{-0.6ex}{\small NOTA}
+}
+
+\newtcolorbox{error}{
+  enhanced,
+%  sharp corners,
+  frame hidden,
+  colback=error!10,
+	lefttitle=0pt,
+  coltitle=error,
+  fonttitle=\bfseries\sffamily\scshape,
+  titlerule=0.8mm,
+  titlerule style=error,
+  title=\raisebox{-0.6ex}{\small ERROR}
+}
+
+\newtcblisting{shell}{
+  enhanced,
+  colback=black!10,
+  colupper=black,
+  frame hidden,
+  opacityback=0,
+  coltitle=black,
+  fonttitle=\bfseries\sffamily\scshape,
+  %titlerule=0.8mm,
+  %titlerule style=black,
+  %title=Consola,
+  listing only,
+  listing options={
+    style=tcblatex,
+    language=sh,
+    breaklines=true,
+    postbreak=\mbox{\textcolor{black}{$\hookrightarrow$}\space},
+    emph={jmml@UbuntuServer, jmml@CentOS},
+    emphstyle={\bfseries},
+  },
+}
+
+\newtcbtheorem[number within=section]{teor}{\small TEOREMA}{
+  enhanced,
+  sharp corners,
+  frame hidden,
+  colback=white,
+  coltitle=black,
+  fonttitle=\bfseries\sffamily,
+  %separator sign=\raisebox{-0.65ex}{\Large\MI\symbol{58828}},
+  description font=\itshape
+}{teor}
+
+\newtcbtheorem[number within=section]{prop}{\small PROPOSICIÓN}{
+  enhanced,
+  sharp corners,
+  frame hidden,
+  colback=white,
+  coltitle=black,
+  fonttitle=\bfseries\sffamily,
+  %separator sign=\raisebox{-0.65ex}{\Large\MI\symbol{58828}},
+  description font=\itshape
+}{prop}
+
+\newtcbtheorem[number within=section]{cor}{\small COROLARIO}{
+  enhanced,
+  sharp corners,
+  frame hidden,
+  colback=white,
+  coltitle=black,
+  fonttitle=\bfseries\sffamily,
+  %separator sign=\raisebox{-0.65ex}{\Large\MI\symbol{58828}},
+  description font=\itshape
+}{cor}
+
+\newtcbtheorem[number within=section]{defi}{\small DEFINICIÓN}{
+  enhanced,
+  sharp corners,
+  frame hidden,
+  colback=white,
+  coltitle=black,
+  fonttitle=\bfseries\sffamily,
+  %separator sign=\raisebox{-0.65ex}{\Large\MI\symbol{58828}},
+  description font=\itshape
+}{defi}
+
+\newtcbtheorem{ejer}{\small EJERCICIO}{
+  enhanced,
+  sharp corners,
+  frame hidden,
+  left=0mm,
+  right=0mm,
+  colback=white,
+  coltitle=black,
+  fonttitle=\bfseries\sffamily,
+  %separator sign=\raisebox{-0.65ex}{\Large\MI\symbol{58828}},
+  description font=\itshape,
+  nameref/.style={},
+}{ejer}
+
+% CÓDIGO
+\usepackage{listings}
+
+% CABECERAS
+\pagestyle{headings}
+\setkomafont{pageheadfoot}{\normalfont\normalcolor\sffamily\small}
+\setkomafont{pagenumber}{\normalfont\sffamily}
+
+% ALGORITMOS
+\usepackage[vlined,linesnumbered]{algorithm2e}
+\usepackage{listings}
+\usepackage{color}
+\renewcommand{\lstlistingname}{Listado}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2
+}
+
+% Formato de los pies de figura
+\setkomafont{captionlabel}{\scshape}
+\SetAlCapFnt{\normalfont\scshape}
+\SetAlgorithmName{Algoritmo}{Algoritmo}{Lista de algoritmos}
+
+% BIBLIOGRAFÍA
+%\usepackage[sorting=none]{biblatex}
+%\addbibresource{bibliografia.bib}
+
+\begin{document}
+
+\renewcommand{\proofname}{\normalfont\sffamily\bfseries\small DEMOSTRACIÓN}
+
+\title{Proyecto final}
+\subject{Aprendizaje automático}
+\author{Johanna Capote Robayna\\
+Guillermo Galindo Ortuño \\
+    5 del Doble Grado en Informática y Matemáticas\\
+    Grupo A}
+\date{}
+\publishers{\vspace{2cm}\includegraphics[height=2.5cm]{UGR}\vspace{1cm}}
+\maketitle
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Definición del problema a resolver y enfoque elegido}
+\section{Argumentos a favor de la elección de los modelos}
+\section{Codificación de los datos de entrada par hacerlo útiles a los algoritmos}
+\section{Valoración del interés de las variables para el problema y selección de un subconjunto}
+\section{Normalización de las variables}
+\section{Justificación de la función de pérdida usada}
+\section{Selección del modelo lineal paramétrico y valoración de su idoneidad frente a otras alternativas}
+\section{Aplicación de técnicas}
+\section{Función de regularización}
+\section{Valoración de los resultados}
+\section{Justificación}
+
+%printbibliography
+
+\end{document}
