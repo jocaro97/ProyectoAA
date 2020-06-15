@@ -147,14 +147,14 @@ modelos = [
         max_iter = 1000)],
         'clf__C':[2.0, 1.0, 0.1, 0.01, 0.001]},
     {'clf': [MLPClassifier(random_state=SEED)],
-        'clf__hidden_layer_sizes': [(n, n, n) for n in range (50, 100, 5)], # Experimentamos con 3 capas
+        'clf__hidden_layer_sizes': np.linspace(50, 100, 3, endpoint=True), # Experimentamos con 3 capas
         'clf__alpha': [10**a for a in range(-6,-2)]},
     {'clf': [SVC(kernel='rbf', # kernel gausiano
         class_weight = "balanced", # clases balanceadas
         random_state=SEED)],
         'clf__C': [10**a for a in range(-6,-2)]},
     {'clf': [AdaBoostClassifier(random_state=SEED)],
-        'clf__learning_rate': [10**a for a in range(-3, -3)]},
+        'clf__learning_rate': [10**a for a in range(-3, 3)]},
 ]
 
 # cross-validation
