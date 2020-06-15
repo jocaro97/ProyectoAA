@@ -15,7 +15,13 @@ import seaborn as sns
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression, Perceptron, RidgeClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.gaussian_process.kernels import RBF
+
 from sklearn.decomposition import PCA
 from sklearn.metrics import confusion_matrix
 from sklearn.base import BaseEstimator
@@ -24,7 +30,7 @@ import warnings
 
 # --------------------------------------------------------------------------------------
 # Quitamos los warnings
-warnings.filterwarnings('ignore')
+# warnings.filterwarnings('ignore')
 # --------------------------------------------------------------------------------------
 # Semilla
 SEED = 100
@@ -140,18 +146,19 @@ modelos = [
         solver = 'lbfgs', # Algoritmo a utilizar en el problema de optimización, aunque es el dado por defecto
         max_iter = 1000)],
         'clf__C':[2.0, 1.0, 0.1, 0.01, 0.001]},
-    {'clf': [Perceptron(penalty = 'l2', # Regularización de Ridge (L2)
-        tol = 1e-3, # Criterio de parada
-        class_weight = "balanced")]},  #clases balanceada
-    {'clf': [RidgeClassifier(normalize=True, # datos normalizados
+    {'clf': [MLPClassifier(random_state=SEED)],
+        'clf__hidden_layer_sizes': [(n, n, n) for n in range (50, 100, 5)], # Experimentamos con 3 capas
+        'clf__alpha': [10**a for a in range(-6,-2)]},
+    {'clf': [SVC(kernel='rbf', # kernel gausiano
         class_weight = "balanced", # clases balanceadas
-        random_state=SEED,
-        tol=0.1)],
-        'clf__alpha': [1.0, 0.1, 0.01, 0.001]},
+        random_state=SEED)],
+        'clf__C': [10**a for a in range(-6,-2)]},
+    {'clf': [AdaBoostClassifier(random_state=SEED)],
+        'clf__learning_rate': [10**a for a in range(-3, -3)]},
 ]
 
-# cross -validation
-grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5, n_jobs = -1)
+# cross-validation
+grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5, n_jobs=-1)
 grid.fit(X, y)
 clasificador = grid.best_estimator_
 # Mostramos el clasificador elegido
