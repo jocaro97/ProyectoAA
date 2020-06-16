@@ -165,7 +165,7 @@ modelos = [
 ]
 
 # cross-validation
-grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5, n_jobs=-1)
+grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5, n_jobs=-2)
 grid.fit(X, y)
 clasificador = grid.best_estimator_
 # Mostramos el clasificador elegido
