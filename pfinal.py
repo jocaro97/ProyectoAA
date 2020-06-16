@@ -114,7 +114,7 @@ def mostrar_correlaciones(datos):
     f.suptitle('Matriz Correlaciones')
     plt.show()
 
-mostrar_correlaciones(X)
+mostrar_correlaciones(X_train)
 input("\n--- Pulsar tecla para continuar ---\n")
 
 # Mostramos la matriz de correlaciones después del preprocesado de datos
@@ -129,7 +129,7 @@ def muestra_correlaciones_procesados(datos):
     f.suptitle('Matriz Correlaciones')
     plt.show()
 
-datos_preprocesados = preprocesador.fit_transform(X)
+datos_preprocesados = preprocesador.fit_transform(X_train)
 muestra_correlaciones_procesados(datos_preprocesados)
 input("\n--- Pulsar tecla para continuar ---\n")
 
@@ -166,8 +166,9 @@ modelos = [
 
 # cross-validation
 grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5, n_jobs=-1)
-grid.fit(X, y)
+grid.fit(X_train, y_train)
 clasificador = grid.best_estimator_
+
 # Mostramos el clasificador elegido
 print("Clasificador elegido: {}".format(clasificador))
 y_predict = clasificador.predict(X_test)
@@ -195,5 +196,5 @@ plt.show()
 input("\n--- Pulsar tecla para continuar ---\n")
 
 # Resultados
-print("E_in: {}".format(1 - clasificador.score(X, y)))
+print("E_in: {}".format(1 - clasificador.score(X_train, y_train)))
 print("E_test: {}".format(1 - clasificador.score(X_test, y_test)))

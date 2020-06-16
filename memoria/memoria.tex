@@ -233,11 +233,23 @@ Guillermo Galindo Ortuño \\
 \newpage
 
 \section{Definición del problema a resolver y enfoque elegido}
+Inicialmente se nos plantea un problema de regresión, cuyo objetivo es predecir la popularidad (contada en número de artículos compartidos en redes sociales) a partir de las características sobre los artículos publicados. Sin embargo, siguiendo las recomendaciones de los creadores del dataset trataremos este problema como un problema de clasificación binario, considerando todos aquellos valores menores e iguales que $1400$ \textit{shares} como una clase y los mayores como la otra.
+
+El dataset consta de 60 atributos, dos de ellos no predictivos (\textit{url} y \textit{timedelta}), por lo tanto nuestro vector de características tendrá una longitud de 58. Por lo tanto identificamos los datos del problema como:
+\begin{itemize}
+\item $X: \mathbb{R}^{58}$
+\item $Y: \{-1,1\}$
+\item $f:X \rightarrow Y$
+\end{itemize}
 \section{Argumentos a favor de la elección de los modelos}
 \section{Codificación de los datos de entrada par hacerlo útiles a los algoritmos}
 \section{Valoración del interés de las variables para el problema y selección de un subconjunto}
 \section{Normalización de las variables}
 \section{Justificación de la función de pérdida usada}
+Como métrica de error utilizaremos el \textit{accuracy}, la usual en este tipo de problemas. Esta medida expresa el error como un valor entre 0 y 1, siendo 0 cuando todos los puntos están bien clasificados y 1 cuando están todos mal clasificados. Para calcularla, dado un $h \in H$ el error viene dado por:
+$$E_{in}(h) = \frac{1}{N} \sum_{x_n \in X} [[ h(x) \neq y_n]] $$
+
+Para visualizar y analizar el error utilizamos la matriz de confusión, aunque está no es una medida métrica, la mayoría de métricas se basan en esta matriz. Esta matriz es un método visual en el que podemos ver el rendimiento de un modelo supervisado. Esta matriz muestra los falsos positivos y los verdaderos positivos.
 \section{Selección del modelo lineal paramétrico y valoración de su idoneidad frente a otras alternativas}
 \section{Aplicación de técnicas}
 \section{Función de regularización}
