@@ -136,7 +136,7 @@ input("\n--- Pulsar tecla para continuar ---\n")
 # Entrenamiento
 # Añadimos el clasificador ClfSwitcher para evitar errores de compilación
 preprocesado = [("escalado", StandardScaler()),
-                ("PCA", PCA(n_components=0.95)),('clf', ClfSwitcher())]
+                ("PCA", PCA(n_components=0.95)), ('clf', ClfSwitcher())]
 
 preprocesador = Pipeline(preprocesado)
 
@@ -144,22 +144,22 @@ preprocesador = Pipeline(preprocesado)
 modelos = [
     {'clf': [LogisticRegression(penalty='l2', # Regularización Ridge (L2)
         multi_class='ovr', # Indicamos que la regresión logística es multinomial
-        solver = 'lbfgs', # Algoritmo a utilizar en el problema de optimización, aunque es el dado por defecto
-        max_iter = 1000)],
+        solver='lbfgs', # Algoritmo a utilizar en el problema de optimización, aunque es el dado por defecto
+        max_iter=1000)],
         'clf__C':[2.0, 1.0, 0.1, 0.01, 0.001]},
     {'clf': [MLPClassifier(random_state=SEED)],
         'clf__hidden_layer_sizes': np.linspace(50, 100, 3, endpoint=True), # Experimentamos con 3 capas
         'clf__alpha': [10**a for a in range(-6,-2)]},
     {'clf': [SVC(kernel='rbf', # kernel gausiano
-        class_weight = "balanced", # clases balanceadas
+        class_weight="balanced", # clases balanceadas
         random_state=SEED)],
         'clf__C': [10**a for a in range(-6,-2)]},
     {'clf': [AdaBoostClassifier(random_state=SEED)],
         'clf__learning_rate': [10**a for a in range(-3, 3)]},
     {'clf': [RandomForestClassifier(random_state=SEED,
-                                    class_weight = "balanced")],
-        'clf__max_depth': [10,20,30,40,50],
-        'clf__n_estimators': [50,100,150,200]},
+                                    class_weight="balanced")],
+        'clf__max_depth': [10, 20, 30, 40, 50],
+        'clf__n_estimators': [50, 100, 150, 200]},
 ]
 
 # cross-validation
