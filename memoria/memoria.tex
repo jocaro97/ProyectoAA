@@ -23,7 +23,7 @@
 \usepackage{FiraSans}
 \usepackage[T1]{fontenc}
 
-\defaultfontfeatures{Ligatures=TeX,Numbers=Lining}
+% \defaultfontfeatures{Ligatures=TeX,Numbers=Lining}
 \usepackage[activate={true,nocompatibility},final,tracking=true,factor=1100,stretch=10,shrink=10]{microtype}
 \SetTracking{encoding={*}, shape=sc}{0}
 
@@ -233,13 +233,16 @@ Guillermo Galindo Ortuño \\
 \newpage
 
 \section{Definición del problema a resolver y enfoque elegido}
-Inicialmente se nos plantea un problema de regresión, cuyo objetivo es predecir la popularidad (contada en número de artículos compartidos en redes sociales) a partir de las características sobre los artículos publicados. Sin embargo, siguiendo las recomendaciones de los creadores del dataset trataremos este problema como un problema de clasificación binario, considerando todos aquellos valores menores e iguales que $1400$ \textit{shares} como una clase y los mayores como la otra.
 
-El dataset consta de 60 atributos, dos de ellos no predictivos (\textit{url} y \textit{timedelta}), por lo tanto nuestro vector de características tendrá una longitud de 58. Por lo tanto identificamos los datos del problema como:
+El problema que inicialmente se nos plantea es del estimar la popularidad de un artículo (medido como número de veces que este es compartido) basándonos en una serie de características de este, como por ejemplo la longitud o si trata de temas como tecnología, estilo de vida, etc.
+
+Aunque lo natural sería haberlo plantearlo como un problema de regresión, en nuestro caso hemos decidido enfocarlo como un problema de clasificación binario. Esto lo hemos hecho para poder utilizar y analizar modelos de clasficación tal y como hemos estudiado, que creemos que será más interesante. Siguiendo las recomendaciones de los creadores de la base de datos, trataremos este problema como un problema de clasificación binaria, considerando todos aquellos valores del atributo objetivo menores o iguales que un umbral ($1400$ en particular) como una clase y los mayores como la otra. Esto podemos interpretarlo como que queremos conocer si un artículo será popular  o no (supera o no el umbral de \textit{shares}).
+
+El \textit{dataset} consta de 61 atributos, siendo dos de ellos no predictivos (\textit{url} y \textit{timedelta}) y otro distinto el objetivo. Por tanto nuestro vector de características tendrá será de tamaño 58. Formalmente:
 \begin{itemize}
-\item $X: \mathbb{R}^{58}$
-\item $Y: \{-1,1\}$
-\item $f:X \rightarrow Y$
+\item Nuestro espacio muestral será $ \mathcal{X}= \mathbb{R}^{58}$.
+\item El espacio de etiquetas será $\mathcal{Y}: \{-1,1\}$.
+\item Nuestro objetivo será encontrar $f:X \rightarrow Y$ que estime si un artículo será popular o no (\(1\) ó \(-1\)).
 \end{itemize}
 \section{Argumentos a favor de la elección de los modelos}
 \section{Codificación de los datos de entrada par hacerlo útiles a los algoritmos}
