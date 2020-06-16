@@ -30,11 +30,8 @@ from sklearn.base import BaseEstimator
 import warnings
 
 # --------------------------------------------------------------------------------------
-# Quitamos los warnings
-# warnings.filterwarnings('ignore')
-# --------------------------------------------------------------------------------------
 # Semilla
-SEED = 100
+SEED = 150
 np.random.seed(SEED)
 
 # Clase que funciona como cualquier estimador
@@ -64,13 +61,15 @@ class ClfSwitcher(BaseEstimator):
         return self.estimator.score(X, y)
 
 # Lectura de los datos de entrenamiento
-datos = pd.read_csv("./datos/OnlineNewsPopularity.csv")
+datos = pd.read_csv("./datos/OnlineNewsPopularity.csv", delimiter = ', ', engine = 'python')
 # Quitamos los atributos no predictivos
-datos = datos.drop(columns = ['url',' timedelta'])
+datos = datos.drop(columns = ['url','timedelta'])
 print(datos)
 
 # Datos perdidos
 datos_perdidos = datos.columns[datos.isnull().any()]
+print(len(datos_perdidos))
+datos_perdidos = datos.columns[datos.isna().any()]
 print(len(datos_perdidos))
 
 y = datos.iloc[:, -1]
@@ -86,7 +85,7 @@ y_df = pd.DataFrame(data = y)
 numero_elementos = []
 clases = [1.0,-1.0]
 for i in clases:
-    numero_elementos.append(y_df[' shares'].value_counts()[i])
+    numero_elementos.append(y_df['shares'].value_counts()[i])
 
 df_plot = pd.DataFrame(columns= ["Clases", "Número de ejemplos"], data =[[c,n] for c, n in zip(clases,numero_elementos)])
 sns.barplot(x="Clases", y ="Número de ejemplos", data = df_plot)
@@ -95,6 +94,7 @@ plt.show()
 input("\n--- Pulsar tecla para continuar ---\n")
 
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.20)
+
 
 # Preprocesado
 preprocesado = [("escalado", StandardScaler()),
@@ -157,7 +157,7 @@ modelos = [
         random_state=SEED)],
         'clf__C': [10**a for a in range(-6,-2)]},
     {'clf': [AdaBoostClassifier(random_state=SEED)],
-        'clf__learning_rate': [10**a for a in range(-3, 3)]},
+        'clf__learning_rate': [10**a for a in range(-3, 0)]},
     {'clf': [RandomForestClassifier(random_state=SEED,
                                     class_weight = "balanced")],
         'clf__max_depth': [10,20,30,40,50],
@@ -166,6 +166,7 @@ modelos = [
 
 # cross-validation
 grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5, n_jobs=-1)
+
 grid.fit(X_train, y_train)
 clasificador = grid.best_estimator_
 
