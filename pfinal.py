@@ -66,7 +66,7 @@ class ClfSwitcher(BaseEstimator):
 # Lectura de los datos de entrenamiento
 datos = pd.read_csv("./datos/OnlineNewsPopularity.csv")
 # Quitamos los atributos no predictivos
-datos = datos.drop(columns = ['url'])
+datos = datos.drop(columns = ['url',' timedelta'])
 print(datos)
 
 # Datos perdidos
@@ -147,8 +147,10 @@ modelos = [
         solver='lbfgs', # Algoritmo a utilizar en el problema de optimización, aunque es el dado por defecto
         max_iter=1000)],
         'clf__C':[2.0, 1.0, 0.1, 0.01, 0.001]},
-    {'clf': [MLPClassifier(random_state=SEED)],
-        'clf__hidden_layer_sizes': np.linspace(50, 100, 3, endpoint=True), # Experimentamos con 3 capas
+    {'clf': [MLPClassifier(random_state=SEED,
+                           max_iter = 350,
+                           tol = 1e-3)],
+        'clf__hidden_layer_sizes': [(50,50,50), (75,75,75), (100,100,100)], # Experimentamos con 3 capas
         'clf__alpha': [10**a for a in range(-6,-2)]},
     {'clf': [SVC(kernel='rbf', # kernel gausiano
         class_weight="balanced", # clases balanceadas
