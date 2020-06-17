@@ -238,15 +238,17 @@ El problema que inicialmente se nos plantea es del estimar la popularidad de un 
 
 Aunque lo natural sería haberlo plantearlo como un problema de regresión, en nuestro caso hemos decidido enfocarlo como un problema de clasificación binario. Esto lo hemos hecho para poder utilizar y analizar modelos de clasficación tal y como hemos estudiado, que creemos que será más interesante. Siguiendo las recomendaciones de los creadores de la base de datos, trataremos este problema como un problema de clasificación binaria, considerando todos aquellos valores del atributo objetivo menores o iguales que un umbral ($1400$ en particular) como una clase y los mayores como la otra. Esto podemos interpretarlo como que queremos conocer si un artículo será popular  o no (supera o no el umbral de \textit{shares}).
 
-El \textit{dataset} consta de 61 atributos, siendo dos de ellos no predictivos  (\textit{url} y \textit{timedelta}) y otro distinto el objetivo. Por tanto nuestro vector de características tendrá será de tamaño 58. Formalmente:
+El \textit{dataset} consta de 61 atributos, siendo dos de ellos no predictivos (\textit{url} y \textit{timedelta}) y otro distinto el objetivo. Por tanto nuestro vector de características tendrá será de tamaño 58. Formalmente:
 \begin{itemize}
 \item Nuestro espacio muestral será $ \mathcal{X}= \mathbb{R}^{58}$.
 \item El espacio de etiquetas será $\mathcal{Y}: \{-1,1\}$.
 \item Nuestro objetivo será encontrar $f:X \rightarrow Y$ que estime si un artículo será popular o no (\(1\) ó \(-1\)).
 \end{itemize}
-
 \section{Argumentos a favor de la elección de los modelos}
 
+Los modelos que estudiaremos en esta práctica son \textbf{Regresión Logística}, \textbf{Maquinas de Vectores de Soporte}, \textbf{RandomForest}. Como ya mencionamos anteriormente, nos enfrentamos a un problema de clasificación binaria.
+
+Elegimos
 \section{Codificación de los datos de entrada par hacerlo útiles a los algoritmos}
 En priner lugar, tras quitar los atributos no predicitivos (\verb|url| y \verb|timedelta|),comprobamos que no hay valores perdidos y que ninguno sea \textit{null}:
 \begin{verbatim}
