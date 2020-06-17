@@ -249,8 +249,9 @@ El \textit{dataset} consta de 61 atributos, siendo dos de ellos no predictivos (
 Los modelos que estudiaremos en esta práctica son \textbf{Regresión Logística}, \textbf{Maquinas de Vectores de Soporte}, \textbf{RandomForest}. Como ya mencionamos anteriormente, nos enfrentamos a un problema de clasificación binaria.
 
 Elegimos
-\section{Codificación de los datos de entrada par hacerlo útiles a los algoritmos}
-En priner lugar, tras quitar los atributos no predicitivos (\verb|url| y \verb|timedelta|),comprobamos que no hay valores perdidos y que ninguno sea \textit{null}:
+
+\section{Codificación de los datos de entrada para hacerlo útiles a los algoritmos}
+En primer lugar, tras eliminar los atributos no predicitivos (\verb|url| y \verb|timedelta|), comprobamos que no existan valores perdidos y ni nulos:
 \begin{verbatim}
 datos_perdidos = datos.columns[datos.isnull().any()]
 datos_perdidos = datos.columns[datos.isna().any()]
@@ -262,7 +263,7 @@ datos_perdidos = datos.columns[datos.isna().any()]
 y = y.apply(lambda x: -1.0 if x < 1400 else 1.0)
 \end{verbatim}
 
-Por último antes de pasar al preprocesado de los datos comprobamos que los valores se encuentran dentro del rango. El valor mínimo es $-1.0$ y el valor máximo es $843300.0$, por lo que no hay valores fuera de rango. Además comprobamos que las clases están balanceadas.
+Por último antes de pasar al preprocesado de los datos comprobamos que los valores se encuentran dentro del rango que nos indica en el archivo de información del conjunto de datos. El valor mínimo es $-1.0$ y el valor máximo es $843300.0$, por lo que no hay valores fuera de rango. Además comprobamos que las clases están balanceadas.
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{./img/balanceadas}
@@ -273,19 +274,22 @@ Dividimos el conjunto de datos en el conjunto de entrenamiento y el conjunto de 
 
 Para preprocesar los datos utilizamos una estructura \verb|Pipeline| de \texit{sklearn} para agrupar todas las transformaciones. Realizamos dos transformaciones de los datos:
 \begin{enumerate}
-\item En primer lugar utilizamos la transformación \verb|StandardScaler()| para reescalar los atributos para evitar datos con distintas escalas. Tras estre reescalado los atributos tienen media $0$ y varianza $1$. Realizamos esta transformación ya que es altamente recomendable que se realice antes de entrenar los modelos que hemos elegido.
 
-\item Además aplicamos el algoritmo PCA, con el conseguimos reducir la dimensionalidad de las características. Se ha fijado que seleccione el número de componentes de modo que la cantidad de varianza que deba explicarse sea mayor del $95\%$. Elegimos aplicar esta transformación puesto que la cantidad de atributos es considerablemente grande, con ella buscamos mejorar la eficiencia de los modelos y encontrar una base de coordenadas que sea más representativa (eliminando las correlaciones entre los atributos), hallando aquellas características con mayor relevancia.
+\item Aplicamos Análisis de Componentes Principales con el objetivo de reducir la dimensionalidad de las características. Debido a que la cantidad de atributos es considerablemente grande, con ella buscamos mejorar la eficiencia de los modelos y encontrar una base de coordenadas que sea más representativa, al mismo tiempo que reducimos la correlación entre los atributos.
+
+\item Tras esto, utilizamos la transformación \verb|StandardScaler()| para reescalar los atributos para evitar datos con distintas escalas. Tras este reescalado los atributos tienen media $0$ y varianza $1$. Realizamos esta transformación ya que es altamente recomendable que se realice antes de entrenar los modelos que hemos elegido.
 
 \end{enumerate}
 Por lo que el Pipeline del preprocesador quedaría de la siguiente forma:
 \begin{verbatim}
-preprocesado = [("escalado", StandardScaler()),
-                ("PCA", PCA(n_components=0.95))]
+preprocesado = [("PCA", PCA(n_components=0.95)),
+                ("escalado", StandardScaler())]
 
 preprocesador = Pipeline(preprocesado)
 \end{verbatim}
-Para analizar los logros obtenidos con el preprocesado de datos utilizamos una matriz de correlaciones con la que podemos observar que el preprocesador de datos ha mejorado la correlación de las características. En las siguientes imágenes podemos observar como se ha reduciendo a 35 las características y se han eliminado las correlaciones entre ellas.
+
+Para analizar los logros obtenidos con el preprocesado de datos mostramos la matriz de correlaciones.  En las siguientes imágenes podemos observar como se ha reduciendo a 35 las características y se han eliminado las correlaciones entre ellas, logrando los objetivos persiguidos.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{./img/antespre}
