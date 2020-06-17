@@ -238,7 +238,9 @@ El problema que inicialmente se nos plantea es del estimar la popularidad de un 
 
 Aunque lo natural sería haberlo plantearlo como un problema de regresión, en nuestro caso hemos decidido enfocarlo como un problema de clasificación binario. Esto lo hemos hecho para poder utilizar y analizar modelos de clasficación tal y como hemos estudiado, que creemos que será más interesante. Siguiendo las recomendaciones de los creadores de la base de datos, trataremos este problema como un problema de clasificación binaria, considerando todos aquellos valores del atributo objetivo menores o iguales que un umbral ($1400$ en particular) como una clase y los mayores como la otra. Esto podemos interpretarlo como que queremos conocer si un artículo será popular  o no (supera o no el umbral de \textit{shares}).
 
-El \textit{dataset} consta de 61 atributos, siendo dos de ellos no predictivos (\textit{url} y \textit{timedelta}) y otro distinto el objetivo. Por tanto nuestro vector de características tendrá será de tamaño 58. Formalmente:
+El \textit{dataset} consta de 61 atributos, siendo dos de ellos no predictivos (\textit{url} y \textit{timedelta}) y otro distinto el objetivo. Entre el resto de atributos nos encontramos 13 categóricos, los que son de la forma \texttt{<\ldots>\_is\_<\ldots>}, que se encuentran almacenados como \(0\) o \(1\).
+
+Por tanto nuestro vector de características será real de tamaño 58. Formalmente:
 \begin{itemize}
 \item Nuestro espacio muestral será $ \mathcal{X}= \mathbb{R}^{58}$.
 \item El espacio de etiquetas será $\mathcal{Y}: \{-1,1\}$.
@@ -246,11 +248,11 @@ El \textit{dataset} consta de 61 atributos, siendo dos de ellos no predictivos (
 \end{itemize}
 \section{Argumentos a favor de la elección de los modelos}
 
-Los modelos que estudiaremos en esta práctica son \textbf{Regresión Logística}, \textbf{Maquinas de Vectores de Soporte}, \textbf{RandomForest}. Como ya mencionamos anteriormente, nos enfrentamos a un problema de clasificación binaria.
+Los modelos que estudiaremos en esta práctica son \textbf{Regresión Logística}, \textbf{Maquinas de Vectores de Soporte} \textbf{(SVM)} y \textbf{RandomForest}. Como ya mencionamos anteriormente, nos enfrentamos a un problema de clasificación binaria.
 
-Elegimos
+Como nuestro problema es suficiente complejo, elegimos regresión logística como modelo lineal pues además está pensando para utilizarlo en problemas de clasificación, como es el caso. Además de este, elegimos otros dos modelos más complejos como son SVM y RandomForest, de los cuales sabemos que se adecuan bien a problemas de clasificación binaria como en el que nos encontramos.
 
-\section{Codificación de los datos de entrada para hacerlo útiles a los algoritmos}
+\section{Tratamiento de los datos de entrada y preprocesado}
 En primer lugar, tras eliminar los atributos no predicitivos (\verb|url| y \verb|timedelta|), comprobamos que no existan valores perdidos y ni nulos:
 \begin{verbatim}
 datos_perdidos = datos.columns[datos.isnull().any()]
@@ -272,7 +274,7 @@ Por último antes de pasar al preprocesado de los datos comprobamos que los valo
 
 Dividimos el conjunto de datos en el conjunto de entrenamiento y el conjunto de test, para ello utilizamos la función \verb|train_test_split()| de la librería \textit{sklearn}. Elegimos que el conjunto de test tenga un tamaño del $20\%$, medida estándar.
 
-Para preprocesar los datos utilizamos una estructura \verb|Pipeline| de \texit{sklearn} para agrupar todas las transformaciones. Realizamos dos transformaciones de los datos:
+Para preprocesar los datos utilizamos una estructura \verb|Pipeline| de \textit{sklearn} para agrupar todas las transformaciones. Realizamos dos transformaciones de los datos:
 \begin{enumerate}
 
 \item Aplicamos Análisis de Componentes Principales con el objetivo de reducir la dimensionalidad de las características. Debido a que la cantidad de atributos es considerablemente grande, con ella buscamos mejorar la eficiencia de los modelos y encontrar una base de coordenadas que sea más representativa, al mismo tiempo que reducimos la correlación entre los atributos.
@@ -301,8 +303,6 @@ Para analizar los logros obtenidos con el preprocesado de datos mostramos la mat
 \caption{Matriz de correlaciones después del preprocesado de datos.}
 \end{figure}
 
-\section{Valoración del interés de las variables para el problema y selección de un subconjunto}
-\section{Normalización de las variables}
 \section{Justificación de la función de pérdida usada}
 Como métrica de error utilizaremos el \textit{accuracy}, la usual en este tipo de problemas. Esta medida expresa el error como un valor entre 0 y 1, siendo 0 cuando todos los puntos están bien clasificados y 1 cuando están todos mal clasificados. Para calcularla, dado un $h \in H$ el error viene dado por:
 $$E_{in}(h) = \frac{1}{N} \sum_{x_n \in X} [[ h(x) \neq y_n]] $$
