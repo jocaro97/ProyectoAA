@@ -63,7 +63,7 @@ class ClfSwitcher(BaseEstimator):
 # Lectura de los datos de entrenamiento
 datos = pd.read_csv("./datos/OnlineNewsPopularity.csv", delimiter = ', ', engine = 'python')
 # Quitamos los atributos no predictivos
-datos = datos.drop(columns = ['url','timedelta'])
+datos = datos.drop(columns=['url', 'timedelta'])
 print(datos)
 
 # Datos perdidos
@@ -94,7 +94,6 @@ plt.show()
 input("\n--- Pulsar tecla para continuar ---\n")
 
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.20)
-
 
 # Preprocesado
 preprocesado = [("escalado", StandardScaler()),
@@ -147,17 +146,11 @@ modelos = [
         solver='lbfgs', # Algoritmo a utilizar en el problema de optimización, aunque es el dado por defecto
         max_iter=1000)],
         'clf__C':[2.0, 1.0, 0.1, 0.01, 0.001]},
-    {'clf': [MLPClassifier(random_state=SEED,
-                           max_iter = 350,
-                           tol = 1e-3)],
-        'clf__hidden_layer_sizes': [(50,50,50), (75,75,75), (100,100,100)], # Experimentamos con 3 capas
-        'clf__alpha': [10**a for a in range(-6,-2)]},
     {'clf': [SVC(kernel='rbf', # kernel gausiano
         class_weight="balanced", # clases balanceadas
         random_state=SEED)],
-        'clf__C': [10**a for a in range(-6,-2)]},
-    {'clf': [AdaBoostClassifier(random_state=SEED)],
-        'clf__learning_rate': [10**a for a in range(-3, 0)]},
+        'clf__C': [10**a for a in range(-4, 2)]},
+
     {'clf': [RandomForestClassifier(random_state=SEED,
                                     class_weight="balanced")],
         'clf__max_depth': [10, 20, 30, 40, 50],
