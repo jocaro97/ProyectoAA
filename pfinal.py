@@ -8,8 +8,6 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from pandas_summary import DataFrameSummary
-
 import seaborn as sns
 
 from sklearn.model_selection import GridSearchCV, train_test_split
@@ -59,46 +57,6 @@ class ClfSwitcher(BaseEstimator):
 
     def score(self, X, y):
         return self.estimator.score(X, y)
-
-def PlotGridSearchResults(results, title=""):
-    plt.figure(figsize=(13, 13))
-    plt.title(title, fontsize=16)
-
-    plt.xlabel("min_samples_split")
-    plt.ylabel("Score")
-
-    ax = plt.gca()
-    ax.set_xlim(0, 402)
-    ax.set_ylim(0.73, 1)
-
-    # Get the regular numpy array from the MaskedArray
-    X_axis = np.array(results['param_min_samples_split'].data, dtype=float)
-
-    for scorer, color in zip(sorted(scoring), ['g', 'k']):
-        for sample, style in (('train', '--'), ('test', '-')):
-            sample_score_mean = results['mean_%s_%s' % (sample, scorer)]
-            sample_score_std = results['std_%s_%s' % (sample, scorer)]
-            ax.fill_between(X_axis, sample_score_mean - sample_score_std,
-                            sample_score_mean + sample_score_std,
-                            alpha=0.1 if sample == 'test' else 0, color=color)
-            ax.plot(X_axis, sample_score_mean, style, color=color,
-                    alpha=1 if sample == 'test' else 0.7,
-                    label="%s (%s)" % (scorer, sample))
-
-        best_index = np.nonzero(results['rank_test_%s' % scorer] == 1)[0][0]
-        best_score = results['mean_test_%s' % scorer][best_index]
-
-        # Plot a dotted vertical line at the best score for that scorer marked by x
-        ax.plot([X_axis[best_index], ] * 2, [0, best_score],
-                linestyle='-.', color=color, marker='x', markeredgewidth=3, ms=8)
-
-        # Annotate the best score for that scorer
-        ax.annotate("%0.2f" % best_score,
-                    (X_axis[best_index], best_score + 0.005))
-
-    plt.legend(loc="best")
-    plt.grid(False)
-    plt.show()
 
 # Lectura de los datos de entrenamiento
 datos = pd.read_csv("./datos/OnlineNewsPopularity.csv", delimiter = ', ', engine = 'python')
@@ -199,8 +157,10 @@ modelos = [
 grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5, n_jobs=-1)
 
 grid.fit(X_train, y_train)
-results = grid.cv_results_
-PlotGridSearchResults(results, "GridSearchCV sobre LogisticRegression, SVM y RandomForestClassifier con distintos parametros")
+df_cv_results = pd.DataFrame(grid.cv_results_)
+compression_opts = dict(method='zip', archive_name='results.csv')
+df_cv_results.to_csv('results.zip', index=False, compression=compression_opts)
+
 clasificador = grid.best_estimator_
 
 # Mostramos el clasificador elegido
