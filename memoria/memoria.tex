@@ -238,7 +238,7 @@ El problema que inicialmente se nos plantea es del estimar la popularidad de un 
 
 Aunque lo natural sería haberlo plantearlo como un problema de regresión, en nuestro caso hemos decidido enfocarlo como un problema de clasificación binario. Esto lo hemos hecho para poder utilizar y analizar modelos de clasficación tal y como hemos estudiado, que creemos que será más interesante. Siguiendo las recomendaciones de los creadores de la base de datos, trataremos este problema como un problema de clasificación binaria, considerando todos aquellos valores del atributo objetivo menores o iguales que un umbral ($1400$ en particular) como una clase y los mayores como la otra. Esto podemos interpretarlo como que queremos conocer si un artículo será popular  o no (supera o no el umbral de \textit{shares}).
 
-El \textit{dataset} consta de 61 atributos, siendo dos de ellos no predictivos (\textit{url} y \textit{timedelta}) y otro distinto el objetivo. Entre el resto de atributos nos encontramos 13 categóricos, los que son de la forma \texttt{<\ldots>\_is\_<\ldots>}, que se encuentran almacenados como \(0\) o \(1\).
+El \textit{dataset} consta de 39797 instancias. Cada una consta de 61 atributos, siendo dos de ellos no predictivos (\textit{url} y \textit{timedelta}) y otro distinto el objetivo. Entre el resto de atributos nos encontramos 13 categóricos, los que son de la forma \texttt{<\ldots>\_is\_<\ldots>}, que se encuentran almacenados como \(0\) o \(1\).
 
 Por tanto nuestro vector de características será real de tamaño 58. Formalmente:
 \begin{itemize}
@@ -272,7 +272,7 @@ Por último antes de pasar al preprocesado de los datos comprobamos que los valo
 \caption{Gráfica que muestra el número de individuos de cada clase.}
 \end{figure}
 
-Dividimos el conjunto de datos en el conjunto de entrenamiento y el conjunto de test, para ello utilizamos la función \verb|train_test_split()| de la librería \textit{sklearn}. Elegimos que el conjunto de test tenga un tamaño del $20\%$, medida estándar.
+Dividimos el conjunto de datos en el conjunto de entrenamiento y el conjunto de test, para ello utilizamos la función \verb|train_test_split()| de la librería \textit{sklearn}. Elegimos que el conjunto de test tenga un tamaño del $20\%$, medida estándar. Por tanto, del total del conjunto 31838 pertenecerán al conjunto de entrenamiento mientras que 7959 instancias iran a parar al conjunto de test
 
 Para preprocesar los datos utilizamos una estructura \verb|Pipeline| de \textit{sklearn} para agrupar todas las transformaciones. Realizamos dos transformaciones de los datos:
 \begin{enumerate}
@@ -308,19 +308,16 @@ Como métrica de error utilizaremos el \textit{accuracy}, la usual en este tipo 
 $$E_{in}(h) = \frac{1}{N} \sum_{x_n \in X} [[ h(x) \neq y_n]] $$
 
 Para visualizar y analizar el error utilizamos la matriz de confusión, aunque está no es una medida métrica, la mayoría de métricas se basan en esta matriz. Esta matriz es un método visual en el que podemos ver el rendimiento de un modelo supervisado. Esta matriz muestra los falsos positivos y los verdaderos positivos.
-\section{Selección del modelo lineal paramétrico y valoración de su idoneidad frente a otras alternativas}
 
-Para seleccionar el mejor modelo utilizamos la función \verb|GridSearchCV| la cual utiliza la técnica de \textit{cross-validation} para entrenar y validar los distintos modelos. Esta función elabora un grid con todas las posibles combinaciones de los diccionarios sin mezclar entre ellos (cada estimador con sus parámetros),por lo que le pasamos el preprocesador y la lista con todos los modelos a probar. A continuación entrenamos el \textit{grid} con la función \verb|fit| y elegimos como nuestro clasificador final el mejor estimador, el cual será el que tenga mejor \textit{accuracy}. Este estimador que nos devuelve el \verb|GridSearchCV| ya está entrenado en todo el conjunto de entrenamiento por lo que no es necesario volverlo a entrenar.
-\begin{verbatim}
-grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5,
-                    n_jobs = -1)
-grid.fit(X, y)
-clasificador = grid.best_estimator_
-\end{verbatim}
+\section{Función de regularización}
+Para evitar sobreajustes en alguno de los modelos debido a la alta dimensión de nuestro conjunto de datos introducimos técnicas de regularización, las cuales reducen la complejidad de modelo introduciendo un término en la función de coste. Es decir, la regularización reduce la varianza del modelo sin incrementar considerablemente el sesgo de este.
 
-Tras ejecutar esto con nuestra lista de modelos, obtenemos como resultado que el mejor clasificador es la combinación del estimador ?? y el parámetro ??.
+Dentro de todos los métodos de regularización, elegimos la Regularización de Ridge($L_2$) ya que proporciona mejores resultados cuando la mayoría de los atributos son relevantes, como es nuestro caso.
 
-\section{Aplicación de técnicas}
+Este método añade una penalización cuadrática en los pesos a la función de pérdida (L):
+$$L_{(L_2)}(w) = L(w) + \lambda \|w\|_2^2 $$
+
+\section{Modelos considerados}
 En primer lugar aclaramos que consideramos como modelos un estimador y un conjunto fijo de hiperparámetros, es decir cada modelos será un estimador y una combinación de sus hiperparámetros.
 
 Los modelos elegidos están expresados en un diccionario, en el cual la parte \verb|'clf'| hace referencia al estimador y \verb|'clf__Parametro|' hace referencia a cada uno de los hiperparámetros del estimador y los valores que toma para cada modelo. Los modelos elegidos son los siguientes:
@@ -355,13 +352,16 @@ Los modelos elegidos están expresados en un diccionario, en el cual la parte \v
 \end{verbatim}
 \end{itemize}
 
-\section{Función de regularización}
-Para evitar sobreajustes en alguno de los modelos debido a la alta dimensión de nuestro conjunto de datos introducimos técnicas de regularización, las cuales reducen la complejidad de modelo introduciendo un término en la función de coste. Es decir, la regularización reduce la varianza del modelo sin incrementar considerablemente el sesgo de este.
+\section{Selección del modelo}
+Para seleccionar el mejor modelo utilizamos la función \verb|GridSearchCV| la cual utiliza la técnica de \textit{cross-validation} para entrenar y validar los distintos modelos. Esta función elabora un grid con todas las posibles combinaciones de los diccionarios sin mezclar entre ellos (cada estimador con sus parámetros),por lo que le pasamos el preprocesador y la lista con todos los modelos a probar. A continuación entrenamos el \textit{grid} con la función \verb|fit| y elegimos como nuestro clasificador final el mejor estimador, el cual será el que tenga mejor \textit{accuracy}. Este estimador que nos devuelve el \verb|GridSearchCV| ya está entrenado en todo el conjunto de entrenamiento por lo que no es necesario volverlo a entrenar.
+\begin{verbatim}
+grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5,
+                    n_jobs = -1)
+grid.fit(X, y)
+clasificador = grid.best_estimator_
+\end{verbatim}
 
-Dentro de todos los métodos de regularización, elegimos la Regularización de Ridge($L_2$) ya que proporciona mejores resultados cuando la mayoría de los atributos son relevantes, como es nuestro caso.
-
-Este método añade una penalización cuadrática en los pesos a la función de pérdida (L):
-$$L_{(L_2)}(w) = L(w) + \lambda \|w\|_2^2 $$
+Tras ejecutar esto con nuestra lista de modelos, obtenemos como resultado que el mejor clasificador es la combinación del estimador ?? y el parámetro ??.
 
 \section{Valoración de los resultados}
 \section{Justificación}
