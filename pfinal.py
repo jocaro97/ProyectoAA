@@ -158,8 +158,8 @@ grid = GridSearchCV(preprocesador, modelos, scoring='accuracy', cv=5, n_jobs=-1)
 
 grid.fit(X_train, y_train)
 df_cv_results = pd.DataFrame(grid.cv_results_)
-compression_opts = dict(method='zip', archive_name='results.csv')
-df_cv_results.to_csv('results.zip', index=False, compression=compression_opts)
+# compression_opts = dict(method='zip', archive_name='results.csv')
+# df_cv_results.to_csv('results.zip', index=False, compression=compression_opts)
 
 clasificador = grid.best_estimator_
 
