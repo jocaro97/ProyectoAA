@@ -327,15 +327,13 @@ Los modelos elegidos están expresados en un diccionario, en el cual la parte \v
 
 \begin{itemize}
 \spanishdecimal{.}
-\item \textbf{Regresión logistica}. Elegimos este modelo porque suele obtener buenos resultados en problemas de clasificación multiclase. Elegimos como ya mencionamos anteriormente la regularización $L_2$, además indicamos que la estratégia de clasificación es la \verb|'ovr'| (\textit{one-vs-rest}) ya explicada en la clases de funciones que buscamos y por último elegimos un número máximo de iteraciones de 1000. Por otro lado hacemos variar el parámetro \verb|C| entre los valores $\{2.0, 1.0, 0.1 , 0.01, 0.001\}$, es decir finalmente habrán cinco modelos formados por el estimador y cada posible valor del parámetro \verb|C|.
+\item \textbf{Regresión logistica}. Elegimos este modelo porque suele obtener buenos resultados en problemas de clasificación. Elegimos como ya mencionamos anteriormente la regularización $L_2$, y establecemos el número máximo de iteraciones a 1000. Por otro lado hacemos variar el parámetro \verb|C| entre los valores $\{2.0, 1.0, 0.1 , 0.01, 0.001\}$, es decir finalmente habrán cinco modelos formados por el estimador y cada posible valor del parámetro \verb|C|.
 
 \begin{verbatim}
 {'clf': [LogisticRegression(penalty='l2', # Regularización Ridge (L2)
-               multi_class='ovr', # Indicamos que la regresión logística es multinomial
-               solver = 'lbfgs', # Algoritmo a utilizar en el problema de
-               # optimización
+               solver = 'lbfgs',
                max_iter = 1000)],
-    'clf__C':[2.0, 1.0, 0.1, 0.01, 0.001]}
+'clf__C':[2.0, 1.0, 0.1, 0.01, 0.001]}
 \end{verbatim}
 
 \item \textbf{SVC}. Elegimos este modelo porque se adapta bien a los problemas de clasificación binaria. Fijamos el kernel \verb|'rbf'| como se recomienda en el guión y establecemos que las clases están balanceadas. Por otro lado hacemos variar el parámetro \verb|C| entre los valores $\{10^{-4},10^{-3},10^{-2},10^{-1},1.0,10,10^{2}\}$, es decir estaremos considerando siete modelos formados por el estimador y cada posible valor del parámetro \verb|C|.
@@ -355,6 +353,8 @@ Los modelos elegidos están expresados en un diccionario, en el cual la parte \v
 'clf__max_depth': [10, 20, 30, 40, 50],
 'clf__n_estimators': [50, 100, 150, 200]}
 \end{verbatim}
+\end{itemize}
+
 \section{Función de regularización}
 Para evitar sobreajustes en alguno de los modelos debido a la alta dimensión de nuestro conjunto de datos introducimos técnicas de regularización, las cuales reducen la complejidad de modelo introduciendo un término en la función de coste. Es decir, la regularización reduce la varianza del modelo sin incrementar considerablemente el sesgo de este.
 
