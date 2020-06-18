@@ -386,6 +386,9 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
 \caption{Score de los modelos de Regresión Logística.}
 \end{figure}
 
+El mejor de los modelos de regresión logística corresponde a \(C = 0.01\), con una puntación de
+0.64761\ldots
+
 \textbf{SVM}
 
 \begin{table}[ht]
@@ -409,6 +412,10 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
 \includegraphics[width=1\textwidth]{./img/Figure_2}
 \caption{Score de los modelos de SVM.}
 \end{figure}
+
+
+El mejor de los modelos de máquina de vectores de soporte corresponde a \(C = 1\), con una puntación de
+0.65360\ldots
 
 \textbf{RandomForest}
 
@@ -448,6 +455,10 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
 \includegraphics[width=1\textwidth]{./img/Figure_3}
 \caption{Score de los modelos de RFA}
 \end{figure}
+
+El mejor de los modelos de random forest corresponde a profundidad máxima 20 y 200 estimadores, con una puntación de 0.651962\ldots
+
+Por tanto, de los modelos estudiados elegimos el \textbf{SVM con C=1}.
 
 \section{Valoración de los resultados}
 
