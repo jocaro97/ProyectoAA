@@ -128,7 +128,7 @@ def muestra_correlaciones_procesados(datos):
 
 datos_preprocesados = preprocesador.fit_transform(X_train)
 muestra_correlaciones_procesados(datos_preprocesados)
-# input("\n--- Pulsar tecla para continuar ---\n")
+input("\n--- Pulsar tecla para continuar ---\n")
 
 # Entrenamiento
 # Añadimos el clasificador ClfSwitcher para evitar errores de compilación
@@ -176,8 +176,8 @@ cax = ax.matshow(cm, cmap ="BuGn")
 plt.title('Confusion matrix of the classifier')
 fig.colorbar(cax)
 ax.set(title="Matriz de confusión",
-    xticks=np.arange(2),
-    yticks=np.arange(2),
+    xticks=range(2),
+    yticks=range(2),
     xlabel="Etiqueta real",
     ylabel="Etiqueta predicha")
 
