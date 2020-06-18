@@ -372,14 +372,19 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
     \begin{tabular}{c | c  }
  \(C\) & Cross-Validation score \\
  \hline
- 2.0,   & 0.6473908245309791  \\
- 1.0,   & 0.6473908245309791  \\
+ 2.0   & 0.6473908245309791  \\
+ 1.0   & 0.6473908245309791  \\
  0.1   & 0.6473908245309791  \\
  0.01   & 0.6476115402806244 \\
  0.001  & 0.6464764307110201
-
     \end{tabular}
 \end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{./img/Figure_1}
+\caption{Score de los modelos de Regresión Logística.}
+\end{figure}
 
 \textbf{SVM}
 
@@ -398,6 +403,12 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
  10     & 0.6395081191865049
     \end{tabular}
 \end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{./img/Figure_2}
+\caption{Score de los modelos de SVM.}
+\end{figure}
 
 \textbf{RandomForest}
 
@@ -431,6 +442,13 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
 50 & 200&  0.6477691943875138
     \end{tabular}
 \end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{./img/Figure_3}
+\caption{Score de los modelos de RFA}
+\end{figure}
+
 \section{Valoración de los resultados}
 
 Dicho esto, ahora que ya hemos decidido tomar como modelo SVM con parámetro \texttt{C = 1}, ajustamos el modelo sobre todo nuestro conjunto de entrenamiento, y calculamos la puntuación sobre el conjunto que inicialmente reservamos para test. Así, obtenemos que
