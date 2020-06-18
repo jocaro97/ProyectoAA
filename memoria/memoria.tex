@@ -381,6 +381,9 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
     \end{tabular}
 \end{table}
 
+El mejor de los modelos de regresión logística corresponde a \(C = 0.01\), con una puntación de
+0.64761\ldots
+
 \textbf{SVM}
 
 \begin{table}[ht]
@@ -398,6 +401,9 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
  10     & 0.6395081191865049
     \end{tabular}
 \end{table}
+
+El mejor de los modelos de máquina de vectores de soporte corresponde a \(C = 1\), con una puntación de
+0.65360\ldots
 
 \textbf{RandomForest}
 
@@ -431,6 +437,10 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
 50 & 200&  0.6477691943875138
     \end{tabular}
 \end{table}
+
+El mejor de los modelos de random forest corresponde a profundidad máxima 20 y 200 estimadores, con una puntación de 0.651962\ldots
+
+Por tanto, de los modelos estudiados elegimos el \textbf{SVM con C=1}.
 \section{Valoración de los resultados}
 
 Dicho esto, ahora que ya hemos decidido tomar como modelo SVM con parámetro \texttt{C = 1}, ajustamos el modelo sobre todo nuestro conjunto de entrenamiento, y calculamos la puntación sobre el conjunto que inicialmente reservamos para test. Así, obtenemos que
