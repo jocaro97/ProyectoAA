@@ -364,11 +364,23 @@ clasificador = grid.best_estimator_
 A continuación mostramos una tabla y un gráfico por cada clase de estimador, en la que mostramos las puntuaciones obtenidas en \textit{cross validation}.
 
 \textbf{Regresión Logística}
+
 \textbf{SVM}
+
 \textbf{RandomForest}
 
 \section{Valoración de los resultados}
-\section{Justificación}
+
+Dicho esto, ahora que ya hemos decidido tomar como modelo SVM con parámetro \texttt{C = 1}, ajustamos el modelo sobre todo nuestro conjunto de entrenamiento, y calculamos la puntación sobre el conjunto que inicialmente reservamos para test. Así, obtenemos que
+
+\[
+Accuracy_{test} = 0.6615
+\]
+\[
+E_{test} = 0.3385
+.\]
+
+Los resultados que hemos obtenidos los consideramos safisfactorias, y además coinciden con los que indican en el archivo de información que han obtenido en previos experimentos.
 
 %printbibliography
 
