@@ -89,7 +89,7 @@ df_plot = pd.DataFrame(columns= ["Clases", "Número de ejemplos"], data =[[c,n] 
 sns.barplot(x="Clases", y ="Número de ejemplos", data = df_plot)
 plt.title("Número de ejemplos de cada clase en el conjunto de datos")
 plt.show()
-input("\n--- Pulsar tecla para continuar ---\n")
+# input("\n--- Pulsar tecla para continuar ---\n")
 
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.20)
 
@@ -112,7 +112,7 @@ def mostrar_correlaciones(datos):
     plt.show()
 
 mostrar_correlaciones(X_train)
-input("\n--- Pulsar tecla para continuar ---\n")
+# input("\n--- Pulsar tecla para continuar ---\n")
 
 # Mostramos la matriz de correlaciones después del preprocesado de datos
 def muestra_correlaciones_procesados(datos):
@@ -128,7 +128,7 @@ def muestra_correlaciones_procesados(datos):
 
 datos_preprocesados = preprocesador.fit_transform(X_train)
 muestra_correlaciones_procesados(datos_preprocesados)
-input("\n--- Pulsar tecla para continuar ---\n")
+# input("\n--- Pulsar tecla para continuar ---\n")
 
 # Entrenamiento
 # Añadimos el clasificador ClfSwitcher para evitar errores de compilación
@@ -187,7 +187,7 @@ for i in range(2):
         ax.text(j, i, "{:.0f}%".format(cm[i, j]), ha="center", va="center")
 
 plt.show()
-input("\n--- Pulsar tecla para continuar ---\n")
+# input("\n--- Pulsar tecla para continuar ---\n")
 
 # Resultados
 print("E_in: {}".format(1 - clasificador.score(X_train, y_train)))
