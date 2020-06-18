@@ -371,7 +371,7 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
 
 \section{Valoración de los resultados}
 
-Dicho esto, ahora que ya hemos decidido tomar como modelo SVM con parámetro \texttt{C = 1}, ajustamos el modelo sobre todo nuestro conjunto de entrenamiento, y calculamos la puntación sobre el conjunto que inicialmente reservamos para test. Así, obtenemos que
+Dicho esto, ahora que ya hemos decidido tomar como modelo SVM con parámetro \texttt{C = 1}, ajustamos el modelo sobre todo nuestro conjunto de entrenamiento, y calculamos la puntuación sobre el conjunto que inicialmente reservamos para test. Así, obtenemos que
 
 \[
 Accuracy_{test} = 0.6615
@@ -380,7 +380,16 @@ Accuracy_{test} = 0.6615
 E_{test} = 0.3385
 .\]
 
+Como ya comentamos en la métrica del error, en este problema de clasificación podemos utilizar como método visual para analizar el error la matriz de confusiones en la cual se muestra para cada clase el porcentaje de datos bien clasificados y el porcentaje de etiquetas mal predichas. Comprobamos que, efectivamente acierta sobre el 66% de las veces, acertando un poco más la etiqueta $-1$.
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{./img/matrizconfusion}
+\caption{Matriz de confusión.}
+\end{figure}
 Los resultados que hemos obtenidos los consideramos safisfactorias, y además coinciden con los que indican en el archivo de información que han obtenido en previos experimentos.
+
+Concluimos que para este problema el mejor modelo de los considerados es SVM con parámetro \texttt{C = 1}. Aparte de tratarse de un módelo que se adapta bien a los problemas de clasificación binaria en este problema alcanza un acurracy del $66.15\%$, a priori no muy elevado pero similar al que se indica en la información de \textit{dataset}. Probablemente no sea el
+modelo que proporcione el mejor error, pero de los modelos que se han elegido es el que mejor puntuación ha conseguido.
 
 %printbibliography
 
