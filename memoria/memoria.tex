@@ -365,10 +365,72 @@ A continuación mostramos una tabla y un gráfico por cada clase de estimador, e
 
 \textbf{Regresión Logística}
 
+\begin{table}[ht]
+    \centering
+    \caption{Resultados Regresión Logística}
+    \label{tab:results-plapocket}
+    \begin{tabular}{c | c  }
+ \(C\) & Cross-Validation score \\
+ \hline
+ 2.0,   & 0.6473908245309791  \\
+ 1.0,   & 0.6473908245309791  \\
+ 0.1   & 0.6473908245309791  \\
+ 0.01   & 0.6476115402806244 \\
+ 0.001  & 0.6464764307110201
+
+    \end{tabular}
+\end{table}
+
 \textbf{SVM}
+
+\begin{table}[ht]
+    \centering
+    \caption{Resultados SVM}
+    \label{tab:results-plapocket}
+    \begin{tabular}{c | c  }
+ \(C\) & Cross-Validation score \\
+ \hline
+ 0.0001 & 0.5117137001418888  \\
+ 0.001  & 0.5034526249408797  \\
+ 0.01   & 0.6422197698250041  \\
+ 0.1    & 0.6477691943875138 \\
+ 1      & 0.6536023963424247 \\
+ 10     & 0.6395081191865049
+    \end{tabular}
+\end{table}
 
 \textbf{RandomForest}
 
+\begin{table}[ht]
+    \centering
+    \caption{Resultados RandomForest}
+    \label{tab:results-plapocket}
+    \begin{tabular}{c | c | c  }
+  Profundidad Máxima & Número Estimadores & Cross-Validation score \\
+ \hline
+
+10 & 50  & 0.6445845814283462 \\
+10 & 100&  0.6470124546744443 \\
+10 & 150&  0.6477376635661359 \\
+10 & 200&  0.6478953176730254 \\
+20 & 50&   0.6417468075043355 \\
+20 & 100&  0.6482106258868043 \\
+20 & 150&  0.6505439066687687 \\
+20 & 200&  0.6519627936307739 \\
+30 & 50&   0.6405486362919754 \\
+30 & 100&  0.6478637868516476 \\
+30 & 150&  0.650449314204635 \\
+30 & 200&  0.6490304272426297 \\
+40 & 50&   0.6400126123285512 \\
+40 & 100&  0.6454989752483051 \\
+40 & 150&  0.6477376635661358 \\
+40 & 200&  0.6488727731357402 \\
+50 & 50&   0.6388144411161911 \\
+50 & 100&  0.6454989752483054 \\
+50 & 150&  0.6479268484944033 \\
+50 & 200&  0.6477691943875138
+    \end{tabular}
+\end{table}
 \section{Valoración de los resultados}
 
 Dicho esto, ahora que ya hemos decidido tomar como modelo SVM con parámetro \texttt{C = 1}, ajustamos el modelo sobre todo nuestro conjunto de entrenamiento, y calculamos la puntación sobre el conjunto que inicialmente reservamos para test. Así, obtenemos que
